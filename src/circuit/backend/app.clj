@@ -2,28 +2,21 @@
   (:require [circuit.ui.main :as main]
             [clojure.edn :as edn]
             [clojure.java.io :as io]
-            [clojure.string :as str]
             [hiccup2.core :refer [html raw]]
             [hyperfiddle.electric :as e]
             [reitit.ring :as ring]
             [ring.util.http-response :as resp]))
 
-(defn- js-modules [manifest-path]
+(defn- js-modules [manifest-path asset-path]
   (when-let [manifest (io/resource manifest-path)]
-    (let [dir-url (-> manifest-path
-                      (str/split #"\/")
-                      vec
-                      pop
-                      (conj "")
-                      next
-                      (->> (cons "") (str/join "/")))]
-      (->> (slurp manifest)
-           (edn/read-string)
-           (reduce (fn [r module]
-                     (assoc r (:name module) (str dir-url (:output-name module)))) {})))))
+    (->> (slurp manifest)
+         (edn/read-string)
+         (reduce (fn [r module]
+                   (assoc r (:name module) (str asset-path "/" (:output-name module)))) {}))))
 
-(defn- index-html [manifest-path & {:keys [title]
-                                    :or {title "Circuit"}}]
+(defn- index-html [manifest-path asset-path
+                   & {:keys [title]
+                      :or {title "Circuit"}}]
   (html
    (raw "<!DOCTYPE html>")
    [:html
@@ -34,10 +27,10 @@
              :content "width=device-width, initial-scale=1"}]]
     [:body
      [:script {:type "text/javascript"
-               :src (:main (js-modules manifest-path))}]]]))
+               :src (:main (js-modules manifest-path asset-path))}]]]))
 
 (defn- handle-get [_request]
-  (-> (index-html "public/assets/js/manifest.edn")
+  (-> (index-html "public/assets/js/manifest.edn" "/assets/js")
       str
       (resp/ok)
       (resp/content-type "text/html")
@@ -61,4 +54,5 @@
   []
   ["/assets/*" {:get (ring/create-resource-handler {:root "public/assets"
                                                     :index-files []
+                                                    ;; TODO
                                                     #_#_:not-found-handler not-found-handler})}])

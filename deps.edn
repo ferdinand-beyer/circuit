@@ -4,10 +4,7 @@
         com.hyperfiddle/electric {:mvn/version "v2-alpha-540-ga4699532"}
         hiccup/hiccup {:mvn/version "2.0.0-RC3"}
         http-kit/http-kit {:mvn/version "2.8.0"}
-        metosin/malli {:mvn/version "0.16.4"}
-        metosin/muuntaja {:mvn/version "0.6.10"}
         metosin/reitit-core {:mvn/version "0.7.2"}
-        metosin/reitit-malli {:mvn/version "0.7.2"}
         metosin/reitit-middleware {:mvn/version "0.7.2"}
         metosin/reitit-ring {:mvn/version "0.7.2"}
         metosin/ring-http-response {:mvn/version "0.9.4"}

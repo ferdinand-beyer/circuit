@@ -30,6 +30,7 @@
 
 (defn dev-config []
   (-> (discovery/scan '[circuit.backend])
+      ;; Start (but not stop) the build system.
       (assoc ::build-system {:name ::build-system
                              :start-fn (fn [_] (start-build))})))
 
@@ -54,9 +55,11 @@
   (namespace/refresh :after `start))
 
 (defn shutdown []
-  (stop)
-  (stop-build)
-  (shutdown-agents)
+  (doseq [f [stop stop-build shutdown-agents]]
+    (try
+      (f)
+      (catch Throwable e
+        (.printStackTrace e))))
   (prn ::shutdown)
   :ok)
 

@@ -1,6 +1,5 @@
 (ns circuit.backend.http
   (:require [circuit.backend.http.electric :as electric]
-            [muuntaja.core]
             [org.httpkit.server :as server]
             [reitit.ring :as ring]
             [reitit.ring.middleware.exception :as exception]
@@ -9,7 +8,7 @@
 (defn exception-middleware
   {:init/inject []}
   []
-  ;; TODO: Custom handlers
+  ;; TODO: Create and pass custom error handlers
   (exception/create-exception-middleware))
 
 (defn middleware
