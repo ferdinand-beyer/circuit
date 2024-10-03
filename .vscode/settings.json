@@ -1,0 +1,17 @@
+{
+    "calva.autoOpenInspector": false,
+    "calva.replConnectSequences": [
+        {
+            "name": "Circuit",
+            "projectType": "deps.edn",
+            "autoSelectForJackIn": true,
+            "autoSelectForConnect": false,
+            "menuSelections": {
+                "cljAliases": [
+                    "dev",
+                    "test"
+                ]
+            }
+        }
+    ]
+}

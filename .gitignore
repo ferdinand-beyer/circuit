@@ -1,0 +1,13 @@
+/target/
+
+.cache/
+.cpcache/
+.portal/
+.shadow-cljs/
+
+.nrepl-port
+
+node_modules/
+
+/resources/public/assets/js
+/resources/electric-manifest.edn
